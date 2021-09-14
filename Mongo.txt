@@ -1,0 +1,145 @@
+Microsoft Windows [version 10.0.19042.1165]
+(c) Microsoft Corporation. Tous droits réservés.
+
+C:\Users\YAHYA Bilel>mongo
+MongoDB shell version v5.0.2
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("049f7b48-c3cb-4691-81db-0faf7dc43b1b") }
+MongoDB server version: 5.0.2
+================
+Warning: the "mongo" shell has been superseded by "mongosh",
+which delivers improved usability and compatibility.The "mongo" shell has been deprecated and will be removed in
+an upcoming release.
+We recommend you begin using "mongosh".
+For installation instructions, see
+https://docs.mongodb.com/mongodb-shell/install/
+================
+---
+The server generated these startup warnings when booting:
+        2021-09-07T14:03:19.901+01:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> use contact
+switched to db contact
+> db.createCollection("contactlist")
+{
+        "ok" : 0,
+        "errmsg" : "Collection already exists. NS: contact.contactlist",
+        "code" : 48,
+        "codeName" : "NamespaceExists"
+}
+> db.contactlist
+contact.contactlist
+> db.contactlist.insertMany([
+... {"Lastname": "Ben Lahmer"  , "Firstname": "Fares"  , "Email": "fares@gmail.com" , "age":26},
+... {"Lastname": "Kefi",  "Firstname": "Seif",  "Email": "kefi@gmail.com",  "age":15},
+... {"Lastname": "Fatnassi",  "Firstname": "Sarra",  "Email": "sarra.f@gmail.com",  "age":40},
+... {"Lastname": "Ben Yahia",  "Firstname": "Rym",  "age":4},
+... {"Lastname": "Cherif",  "Firstname": "Sami",  "age":3}
+... ])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("6140c1fdd58113e872c5414d"),
+                ObjectId("6140c1fdd58113e872c5414e"),
+                ObjectId("6140c1fdd58113e872c5414f"),
+                ObjectId("6140c1fdd58113e872c54150"),
+                ObjectId("6140c1fdd58113e872c54151")
+        ]
+}
+> db.contactlist.find()
+{ "_id" : ObjectId("6140c1fdd58113e872c5414d"), "Lastname" : "Ben Lahmer", "Firstname" : "Fares", "Email" : "fares@gmail.com", "age" : 26 }
+{ "_id" : ObjectId("6140c1fdd58113e872c5414e"), "Lastname" : "Kefi", "Firstname" : "Seif", "Email" : "kefi@gmail.com", "age" : 15 }
+{ "_id" : ObjectId("6140c1fdd58113e872c5414f"), "Lastname" : "Fatnassi", "Firstname" : "Sarra", "Email" : "sarra.f@gmail.com", "age" : 40 }
+{ "_id" : ObjectId("6140c1fdd58113e872c54150"), "Lastname" : "Ben Yahia", "Firstname" : "Rym", "age" : 4 }
+{ "_id" : ObjectId("6140c1fdd58113e872c54151"), "Lastname" : "Cherif", "Firstname" : "Sami", "age" : 3 }
+> db.contactlist.find().pretty
+function() {
+    this._prettyShell = true;
+    return this;
+}
+> db.contactlist.find().pretty()
+{
+        "_id" : ObjectId("6140c1fdd58113e872c5414d"),
+        "Lastname" : "Ben Lahmer",
+        "Firstname" : "Fares",
+        "Email" : "fares@gmail.com",
+        "age" : 26
+}
+{
+        "_id" : ObjectId("6140c1fdd58113e872c5414e"),
+        "Lastname" : "Kefi",
+        "Firstname" : "Seif",
+        "Email" : "kefi@gmail.com",
+        "age" : 15
+}
+{
+        "_id" : ObjectId("6140c1fdd58113e872c5414f"),
+        "Lastname" : "Fatnassi",
+        "Firstname" : "Sarra",
+        "Email" : "sarra.f@gmail.com",
+        "age" : 40
+}
+{
+        "_id" : ObjectId("6140c1fdd58113e872c54150"),
+        "Lastname" : "Ben Yahia",
+        "Firstname" : "Rym",
+        "age" : 4
+}
+{
+        "_id" : ObjectId("6140c1fdd58113e872c54151"),
+        "Lastname" : "Cherif",
+        "Firstname" : "Sami",
+        "age" : 3
+}
+> db.contactlist.find({"_id":ObjectId("6140c1fdd58113e872c54151")})
+{ "_id" : ObjectId("6140c1fdd58113e872c54151"), "Lastname" : "Cherif", "Firstname" : "Sami", "age" : 3 }
+> db.contactlist.find({age:{$gt:18}})
+{ "_id" : ObjectId("6140c1fdd58113e872c5414d"), "Lastname" : "Ben Lahmer", "Firstname" : "Fares", "Email" : "fares@gmail.com", "age" : 26 }
+{ "_id" : ObjectId("6140c1fdd58113e872c5414f"), "Lastname" : "Fatnassi", "Firstname" : "Sarra", "Email" : "sarra.f@gmail.com", "age" : 40 }
+> db.contactlist.find({$and:[{age:{$gt:18}},{Lastname:{$regex:"ah"}}]})
+{ "_id" : ObjectId("6140c1fdd58113e872c5414d"), "Lastname" : "Ben Lahmer", "Firstname" : "Fares", "Email" : "fares@gmail.com", "age" : 26 }
+> db.contactlist.findOneAndUpdate({Lastname:"kefi"},{$set:{Firstname:"Anis"}})
+null
+> db.contactlist.findOneAndUpdate({Lastname:"Kefi"},{$set:{Firstname:"Anis"}})
+{
+        "_id" : ObjectId("6140c1fdd58113e872c5414e"),
+        "Lastname" : "Kefi",
+        "Firstname" : "Seif",
+        "Email" : "kefi@gmail.com",
+        "age" : 15
+}
+> db.contactlist.deleteMany({age:{$lt:5}})
+{ "acknowledged" : true, "deletedCount" : 2 }
+> db.contactlist.find().pretty()
+{
+        "_id" : ObjectId("6140c1fdd58113e872c5414d"),
+        "Lastname" : "Ben Lahmer",
+        "Firstname" : "Fares",
+        "Email" : "fares@gmail.com",
+        "age" : 26
+}
+{
+        "_id" : ObjectId("6140c1fdd58113e872c5414e"),
+        "Lastname" : "Kefi",
+        "Firstname" : "Anis",
+        "Email" : "kefi@gmail.com",
+        "age" : 15
+}
+{
+        "_id" : ObjectId("6140c1fdd58113e872c5414f"),
+        "Lastname" : "Fatnassi",
+        "Firstname" : "Sarra",
+        "Email" : "sarra.f@gmail.com",
+        "age" : 40
+}
